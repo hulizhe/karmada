@@ -29,12 +29,15 @@ import (
 	"k8s.io/kubectl/pkg/util/templates"
 
 	"github.com/karmada-io/karmada/pkg/karmadactl/addons"
+	"github.com/karmada-io/karmada/pkg/karmadactl/apiresources"
 	"github.com/karmada-io/karmada/pkg/karmadactl/apply"
+	"github.com/karmada-io/karmada/pkg/karmadactl/attach"
 	"github.com/karmada-io/karmada/pkg/karmadactl/cmdinit"
 	"github.com/karmada-io/karmada/pkg/karmadactl/cordon"
 	"github.com/karmada-io/karmada/pkg/karmadactl/deinit"
 	"github.com/karmada-io/karmada/pkg/karmadactl/describe"
 	"github.com/karmada-io/karmada/pkg/karmadactl/exec"
+	"github.com/karmada-io/karmada/pkg/karmadactl/explain"
 	"github.com/karmada-io/karmada/pkg/karmadactl/get"
 	"github.com/karmada-io/karmada/pkg/karmadactl/interpret"
 	"github.com/karmada-io/karmada/pkg/karmadactl/join"
@@ -87,6 +90,7 @@ func NewKarmadaCtlCommand(cmdUse, parentCommand string) *cobra.Command {
 			Message: "Basic Commands:",
 			Commands: []*cobra.Command{
 				get.NewCmdGet(f, parentCommand, ioStreams),
+				explain.NewCmdExplain(f, parentCommand, ioStreams),
 			},
 		},
 		{
@@ -112,6 +116,7 @@ func NewKarmadaCtlCommand(cmdUse, parentCommand string) *cobra.Command {
 		{
 			Message: "Troubleshooting and Debugging Commands:",
 			Commands: []*cobra.Command{
+				attach.NewCmdAttach(f, parentCommand, ioStreams),
 				logs.NewCmdLogs(f, parentCommand, ioStreams),
 				exec.NewCmdExec(f, parentCommand, ioStreams),
 				describe.NewCmdDescribe(f, parentCommand, ioStreams),
@@ -124,6 +129,13 @@ func NewKarmadaCtlCommand(cmdUse, parentCommand string) *cobra.Command {
 				apply.NewCmdApply(f, parentCommand, ioStreams),
 				promote.NewCmdPromote(f, parentCommand),
 				top.NewCmdTop(f, parentCommand, ioStreams),
+			},
+		},
+		{
+			Message: "Other Commands:",
+			Commands: []*cobra.Command{
+				apiresources.NewCmdAPIResources(f, parentCommand, ioStreams),
+				apiresources.NewCmdAPIVersions(f, parentCommand, ioStreams),
 			},
 		},
 	}
